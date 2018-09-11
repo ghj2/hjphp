@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<title>修改留言</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	
+	<!-- ================== BEGIN BASE CSS STYLE ================== -->
+	<link href="__STATIC__/adminassets/plugins/jquery-ui-1.10.4/jquery-ui.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/plugins/bootstrap-3.1.1/css/bootstrap.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/plugins/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/css/animate.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/css/style.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/css/style-responsive.css" rel="stylesheet" />
+	<!-- ================== END BASE CSS STYLE ================== -->
+	<!-- begin Kind editor css-->
+	<link rel="stylesheet" href="/kindeditor/themes/default/default.css" />
+	<link rel="stylesheet" href="/kindeditor/plugins/code/prettify.css" />
+	<!-- end Kind editor css-->
+	<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+	<link href="__STATIC__/adminassets/plugins/DataTables-1.9.4/css/jQuery.dateTables.css" rel="stylesheet" />
+	<!-- ================== END PAGE LEVEL STYLE ================== -->
+</head>
+<body>
+	<!-- begin #page-loader -->
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<!-- end #page-loader -->
+	
+	<!-- begin #page-container -->
+	<div id="page-container" class="fade">
+		{include file="header_sidebar"}
+
+		<!-- begin #content -->
+		<div id="content" class="content">
+			<!-- begin page-header -->
+			<h1 class="page-header">修改留言<small> Edit Message</small></h1>
+			<!-- end page-header -->
+			
+			<!-- begin row -->
+			<div class="row">
+				<div class="col-md-6 ui-sortable" style="width:100%;">
+			        <!-- begin panel -->
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">修改</h4>
+                        </div>
+						
+                        <form name="form1" id="form1" method="post" action="">
+                        <div class="panel-body">
+                            <input class="form-control" name="orderid" id="orderid" value="{$firm['orderid']}" placeholder="排序" type="number">
+                            <p></p>
+
+							<textarea class="form-control" name="content" id="content" placeholder="简介" rows="5">{$firm['content']}</textarea>
+                            <p></p>
+							
+							<div style="text-align:center;">
+							<button type="button" id="subm" class="btn btn-sm btn-success">提交</button>
+							</div>
+
+                        </div>
+                    	</form>
+                    </div>
+                    <!-- end panel -->
+                </div>
+            </div>
+            <!-- end row -->
+		</div>
+		<!-- end #content -->
+		
+		<!-- begin scroll to top btn -->
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+		<!-- end scroll to top btn -->
+	</div>
+	<!-- end page container -->
+	
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src="__STATIC__/adminassets/plugins/jquery-1.7.2/jquery-1.7.2.js"></script>
+	<script src="__STATIC__/adminassets/plugins/jquery-ui-1.10.4/ui/minified/jquery-ui.min.js"></script>
+	<script src="__STATIC__/adminassets/plugins/bootstrap-3.1.1/js/bootstrap.min.js"></script>
+	<script src="__STATIC__/adminassets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<!--[if lt IE 9]>
+		<script src="__STATIC__/adminassets/crossbrowserjs/html5shiv.js"></script>
+		<script src="__STATIC__/adminassets/crossbrowserjs/respond.min.js"></script>
+		<script src="__STATIC__/adminassets/crossbrowserjs/excanvas.min.js"></script>
+	<![endif]-->
+
+	<!-- ================== END BASE JS ================== -->
+	
+	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+	<script src="__STATIC__/adminassets/plugins/DataTables-1.9.4/js/jquery.dataTables.js"></script>
+	<script src="__STATIC__/adminassets/plugins/DataTables-1.9.4/js/data-table.js"></script>
+	<script src="__STATIC__/adminassets/js/apps.js"></script>
+	<!-- ================== END PAGE LEVEL JS ================== -->
+	<script>
+		$(document).ready(function() {
+			App.init();
+		});
+		$("#subm").click(function(){
+			$("#form1").submit();
+		});
+	</script>
+	
+</body>
+</html>

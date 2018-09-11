@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>用户注册-HJPHP</title>
+<meta name="keywords" content="用户注册,郭豪杰,hjphp,ghj,个人博客,技术博客,php博客,thinkphp博客模板" />
+<meta name="description" content="郭豪杰个人博客注册,快到碗里来." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<!-- 表单样式 -->
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/fonts/font-awesome-4.2.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/demo.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/component.css" />
+<!-- 基本样式 -->
+<link href="__STATIC__/css/base.css" rel="stylesheet">
+<link href="__STATIC__/css/index.css" rel="stylesheet">
+<link href="__STATIC__/css/m.css" rel="stylesheet">
+
+
+<!--[if lt IE 9]>
+<script src="__STATIC__/js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+</head>
+<body>
+{include file="header"}
+
+<article>
+  <h1 class="t_nav"><span>{:config('head_sentence')}</span><a href="/" class="n1">网站首页</a><a class="n2">注册</a></h1>
+  <div class="ab_box">
+	
+	
+      <div class="newsview">
+        <div class="news_infos"> 
+			<!-- 表单开始 -->
+			
+				<!-- 头像上传ajax表单 -->
+				<form method="post" action="{:url('index/upload_img')}" id="form2" enctype="multipart/form-data">
+					<input name="up_headpic_input" type="file" id="up_headpic_input" style="display:none;"/> 
+				</form>
+			
+			<form action="" id="form1" method="post">
+			<section class="content">
+				
+				<div class="avatar"> 
+					<img src="__STATIC__/images/avatar_plus.png" id="up_headpic" style="height:100px;width:100px"> 
+					<input type="hidden" name="headpic" id="headpic" value/>
+				</div>
+				
+				<span class="input input--hoshi">
+					<input class="input__field input__field--hoshi" type="text" name="username_regis" id="username_regis" exist="0"/>
+					<label class="input__label input__label--hoshi input__label--hoshi-color-2" for="username_regis">
+						<span class="input__label-content input__label-content--hoshi">用户名</span>
+					</label>
+				</span>
+				<span class="input input--hoshi">
+					<input class="input__field input__field--hoshi" type="password" name="password_regis" id="password_regis" />
+					<label class="input__label input__label--hoshi input__label--hoshi-color-2" for="password_regis">
+						<span class="input__label-content input__label-content--hoshi">密码</span>
+					</label>
+				</span>
+				<span class="input input--hoshi">
+					<input class="input__field input__field--hoshi" type="password" name="repassword" id="repassword" />
+					<label class="input__label input__label--hoshi input__label--hoshi-color-2" for="repassword">
+						<span class="input__label-content input__label-content--hoshi">确认密码</span>
+					</label>
+				</span>
+				<span class="input input--hoshi">
+					<input class="input__field input__field--hoshi" type="date" name="birthday" id="birthday" />
+					<label class="input__label input__label--hoshi input__label--hoshi-color-2" for="birthday">
+						<span class="input__label-content input__label-content--hoshi">生日</span>
+					</label>
+				</span>
+				<span class="input input--hoshi">
+					<select class="input__field input__field--hoshi" id="province" name="province" style="direction: rtl;">
+						<option value="">--</option>
+						{volist name="formdata['province']" id="item"}
+						<option value="{$item['code']}">{$item['name']}</option>
+						{/volist}
+					</select>
+					<label class="input__label input__label--hoshi input__label--hoshi-color-2" for="province">
+						<span class="input__label-content input__label-content--hoshi">省</span>
+					</label>
+				</span>
+				<span class="input input--hoshi">
+					<select class="input__field input__field--hoshi" id="city" name="city" style="direction: rtl;">
+						<option value=''>--</option>
+					</select>
+					<label class="input__label input__label--hoshi input__label--hoshi-color-2" for="city">
+						<span class="input__label-content input__label-content--hoshi">市</span>
+					</label>
+				</span>
+				<span class="input input--hoshi">
+					<select class="input__field input__field--hoshi" id="district" name="district" style="direction: rtl;">
+						<option value=''>--</option>
+					</select>
+					<label class="input__label input__label--hoshi input__label--hoshi-color-2" for="district">
+						<span class="input__label-content input__label-content--hoshi">县/区</span>
+					</label>
+				</span>
+				<span class="input input--hoshi">
+					<input class="input__field input__field--hoshi" type="text" name="sign" id="sign"/>
+					<label class="input__label input__label--hoshi input__label--hoshi-color-2" for="username_regis">
+						<span class="input__label-content input__label-content--hoshi">个性签名</span>
+					</label>
+				</span>
+			
+				<span class="input input--minoru" style="text-align: center;float: right;">
+					<input class="input__field input__field--minoru" type="button" value="提交注册！" id="register"/>
+					<label class="input__label input__label--minoru" for="register">
+						<span class="input__label-content input__label-content--minoru"></span>
+					</label>
+				</span>
+				
+			</section>
+			</form>
+			
+		</div>
+      </div>
+    
+  </div>
+  
+</article>
+
+
+
+{include file="footer"}
+
+<script src="__STATIC__/js/jquery.form.js"></script>    <!-- 上传头像用 -->
+<script>
+$(function(){
+	<!-- 三级联动ajax -->
+	$("#province").change(function(){
+		$.post("{:url('index/show_area')}",{province:$("#province").val()},function(res){
+			var content = "";
+			Object.keys(res).forEach(function(key){
+				content = content + "<option value='"+res[key]['code']+"'>"+res[key]['name']+"</option>";
+			});
+			$("#city").html(content);
+			$("#city").change();
+		});
+	
+	});
+	$("#city").change(function(){
+		$.post("{:url('index/show_area')}",{city:$("#city").val()},function(res){
+			var content = "";
+			Object.keys(res).forEach(function(key){
+				content = content + "<option value='"+res[key]['code']+"'>"+res[key]['name']+"</option>";
+			});
+			$("#district").html(content);
+		});
+	
+	});
+	<!-- 三级联动ajax结束 -->
+	<!-- 上传头像 -->
+	$("#up_headpic").click(function(){
+		$("#up_headpic_input").click();
+		
+	});
+	$("#up_headpic_input").change(function(){
+		$("#form2").ajaxSubmit({
+			dataType:  'json',
+		    beforeSubmit:function(){},
+			beforeSend: function() {},
+			uploadProgress: function(event, position, total, percentComplete) {
+                var percentVal = percentComplete;
+			},	
+			success: function(data) {
+				if(data == "图片上传失败:02"){
+					alert(data);
+				}else{
+					$("#up_headpic").attr("src",data);
+					$("#headpic").val(data);
+				}
+			},
+			error:function(xhr){
+				alert("图片传输失败:01");
+			}
+		}); 
+	});
+	<!-- 上传头像结束 -->
+	<!-- 表单验证 -->
+	$("#username_regis").blur(function(){
+		$.post("{:url('index/check_username')}",{username:$("#username_regis").val()},function(res){
+			if(res!="1"){
+				alert("用户名已存在，请重新输入");
+				$("#username_regis").attr("exist","1");
+			}else{
+				$("#username_regis").attr("exist","0");
+			}
+		});
+		
+	});
+	$("#repassword").blur(function(){
+		if($("#repassword").val()!=$("#password_regis").val()){
+			alert("两次密码不一致");
+		}
+	});
+	
+	$("#register").click(function(){
+		if($("#username_regis").attr("exist")=="1"){
+			alert("用户名已存在，请重新输入");
+			return;
+		}
+		if($("#username_regis").val()==""){
+			alert("请输入用户名");
+			return;
+		}
+		if($("#password_regis").val()==""){
+			alert("请输入密码");
+			return;
+		}
+		if($("#repassword").val()==""){
+			alert("请再次输入密码");
+			return;
+		}
+		if($("#repassword").val()!=$("#password_regis").val()){
+			alert("两次密码不一致");
+		}
+		
+		$("#password_regis").val($.md5($("#password_regis").val()));
+		$("#repassword").val($.md5($("#repassword").val()));
+		$("#form1").submit();
+	});
+	
+	
+	<!-- 表单验证结束 -->
+});
+</script>
+</body>
+</html>

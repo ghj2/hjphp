@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>个人中心</title>
+<meta name="keywords" content="郭豪杰,guohaojie,ghj" />
+<meta name="description" content="郭豪杰个人博客,郭豪杰个人网站" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+<!-- 基本样式 -->
+<link href="__STATIC__/css/base.css" rel="stylesheet">
+<link href="__STATIC__/css/index.css" rel="stylesheet">
+<link href="__STATIC__/css/m.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="__STATIC__/js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+</head>
+<body>
+{include file="header"}
+
+<article>
+  <h1 class="t_nav"><span>{:config('head_sentence')}</span><a href="/" class="n1">网站首页</a><a class="n2">个人中心</a></h1>
+  <div class="ab_box">
+	<h2 class="hometitle">个人资料 <span><a class="green_button" href="{:url('user/edit_userinfo')}">修改</a></span></h2>
+	
+      
+	<div class="avatar"> <img src="{$userinfo['headpic']}" style="width:100px;height:100px;"> </div>
+	<div class="ab_con">
+	  <p>用户名：{$userinfo['username']}</p>
+	  <p>所在地区：{$userinfo['area']['province'].$userinfo['area']['city'].$userinfo['area']['district']} </p>
+	  <p>个性签名：{$userinfo['sign']}</p>
+	</div>
+	  
+  
+  </div>
+  
+</article>
+
+
+
+{include file="footer"}
+
+</body>
+</html>

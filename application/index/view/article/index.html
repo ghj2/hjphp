@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>技术文章_郭豪杰个人博客_PHP-HJPHP</title>
+<meta name="keywords" content="技术文章,php文章,API接口文章,API,ghj,郭豪杰个人博客,技术博客" />
+<meta name="description" content="技术文章,开源项目以及一些自编的免费API." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+<!-- 基本样式 -->
+<link href="__STATIC__/css/base.css" rel="stylesheet">
+<link href="__STATIC__/css/index.css" rel="stylesheet">
+<link href="__STATIC__/css/m.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="__STATIC__/js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+
+
+</head>
+<body>
+{include file="header"}
+
+
+
+<article>
+  <h1 class="t_nav">
+  	<span>{:config("head_sentence");}</span>
+  	<a href="/" class="n1">网站首页</a><a href="#" class="n2">文章</a>
+  </h1>
+  <div class="blogs">
+    <div class="mt20"></div>
+	{if condition="$list->isEmpty() eq 1"}
+	<li>
+      <h3 class="blogtitle" style="text-align: center;">暂无内容...</h3>
+    </li>
+	{else/}
+	{foreach name="list" item="item"}
+    <li> <span class="blogpic"><a href="{:url('detail',['id'=>$item['id']])}"><img style="max-height: 160px;" src="{$item['pic']}"></a></span>
+      <h3 class="blogtitle"><a href="{:url('detail',['id'=>$item['id']])}">{$item['title']}</a></h3>
+      <div class="bloginfo">
+        <p>{$item['intro']}</p>
+      </div>
+      <div class="autor">
+        <span class="lm"><a href="#" title="" class="classname">{$item['tag']}</a></span>
+        <span class="dtime">{:date("Y-m-d H:i:s",$item['addtime'])}</span>
+        <span class="viewnum">浏览（<a href="#">{$item['viewnum']}</a>）</span>
+        <span class="readmore"><a href="{:url('detail',['id'=>$item['id']])}">阅读原文</a></span>
+      </div>
+    </li>
+    {/foreach}
+	{/if}
+    <style>
+    /* 分页-tp5自带标签 */
+    .pagination { text-align: center; color: #666; width: 100%; clear: both; margin: 20px 0; padding-top: 20px;}
+    .pagination li { color: #666; margin: 0 2px; border: 1px solid #000; padding: 5px 10px;display:inline;}
+    .pagination li:hover { color: #f00; text-decoration: underline }
+    </style>
+    {$list->render()}
+  </div>
+
+  <div class="sidebar">
+    <div class="search">
+      <form action="" method="post" name="searchform" id="searchform" 
+            onsubmit="if($.trim($('#searchword').val())=='请输入关键字'||$.trim($('#searchword').val())==''){alert('请输入关键字');return false;}">
+        <input name="searchword" id="searchword" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+       
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+    <!-- <div class="lmnav">
+      <h2 class="hometitle">栏目导航</h2>
+      <ul class="navbor">
+        <li><a href="#">关于我</a></li>
+        <li><a href="share.html">模板分享</a>
+          <ul>
+            <li><a href="list.html">个人博客模板</a></li>
+            <li><a href="#">HTML5模板</a></li>
+          </ul>
+        </li>
+        <li><a href="list.html">学无止境</a>
+          <ul>
+            <li><a href="list.html">学习笔记</a></li>
+            <li><a href="#">HTML5+CSS3</a></li>
+            <li><a href="#">网站建设</a></li>
+          </ul>
+        </li>
+        <li><a href="#">慢生活</a></li>
+      </ul>
+    </div> -->
+    <div class="paihang">
+      <h2 class="hometitle">点击排行</h2>
+      <ul>
+        {foreach name="hot_list" item="item"}
+        <li><b><a href="{:url('detail',['id'=>$item['id']])}" target="_blank">{$item['title']}</a></b>
+          <p><i><img src="{$item['pic']}"></i>{$item['intro']}</p>
+        </li>
+        {/foreach}
+      </ul>
+    </div>
+    <!-- <div class="cloud">
+      <h2 class="hometitle">标签云</h2>
+      <ul>
+        <a href="/">陌上花开</a> <a href="/">校园生活</a> <a href="/">html5</a> <a href="/">SumSung</a> <a href="/">青春</a> <a href="/">温暖</a> <a href="/">阳光</a> <a href="/">三星</a><a href="/">索尼</a> <a href="/">华维荣耀</a> <a href="/">三星</a> <a href="/">索尼</a>
+      </ul>
+    </div> -->
+    <div class="weixin">
+      <h2 class="hometitle">官方微信</h2>
+      <ul>
+        <img src="{$options['wechat_pic']}">
+      </ul>
+    </div>
+  </div>
+</article>
+
+
+
+{include file="footer"}
+
+</body>
+</html>

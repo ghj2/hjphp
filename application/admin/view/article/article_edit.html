@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<title>修改文章</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	
+	<!-- ================== BEGIN BASE CSS STYLE ================== -->
+	<link href="__STATIC__/adminassets/plugins/jquery-ui-1.10.4/jquery-ui.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/plugins/bootstrap-3.1.1/css/bootstrap.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/plugins/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/css/animate.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/css/style.css" rel="stylesheet" />
+	<link href="__STATIC__/adminassets/css/style-responsive.css" rel="stylesheet" />
+	<!-- ================== END BASE CSS STYLE ================== -->
+	<!-- begin Kind editor css-->
+	<link rel="stylesheet" href="/kindeditor/themes/default/default.css" />
+	<link rel="stylesheet" href="/kindeditor/plugins/code/prettify.css" />
+	<!-- end Kind editor css-->
+	<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+	<link href="__STATIC__/adminassets/plugins/DataTables-1.9.4/css/jQuery.dateTables.css" rel="stylesheet" />
+	<!-- ================== END PAGE LEVEL STYLE ================== -->
+</head>
+<body>
+	<!-- begin #page-loader -->
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<!-- end #page-loader -->
+	
+	<!-- begin #page-container -->
+	<div id="page-container" class="fade">
+		{include file="header_sidebar"}
+
+		<!-- begin #content -->
+		<div id="content" class="content">
+			<!-- begin page-header -->
+			<h1 class="page-header">修改文章<small> Edit Article</small></h1>
+			<!-- end page-header -->
+			
+			<!-- begin row -->
+			<div class="row">
+				<div class="col-md-6 ui-sortable" style="width:100%;">
+			        <!-- begin panel -->
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">修改</h4>
+                        </div>
+						
+						<!-- 头像上传ajax表单 -->
+						<form method="post" action="{:url('Index/upload_img')}" id="form2" enctype="multipart/form-data">
+							<input name="up_headpic_input" type="file" id="up_headpic_input" style="display:none;"/> 
+						</form>
+
+                        <form name="form1" id="form1" method="post" action="">
+                        <div class="panel-body">
+                            <input class="form-control" name="index" id="index" value="{$firm['index']}" placeholder="排序" type="number">
+                            <p></p>
+
+                            <input class="form-control" name="title" id="title" value="{$firm['title']}" placeholder="标题" type="text">
+                            <p></p>
+                           
+							<input class="form-control" name="title2" id="title2" value="{$firm['title2']}" placeholder="副标题" type="text">
+                            <p></p>
+
+                           	<div class="input-group">
+                                <span class="input-group-addon">封面图</span>
+                                <img src="{$firm['pic']}" onerror="javascript:this.src='__STATIC__/images/avatar_plus.png'" id="up_headpic" style="height:100px;width:100px"> 
+								<input type="hidden" name="pic" id="pic" value="{$firm['pic']}"/>
+                            </div>
+                            <p></p>
+							
+							<textarea class="form-control" name="intro" id="intro" placeholder="简介">{$firm['intro']}</textarea>
+                            <p></p>
+							
+							
+							<textarea id="detail" name="detail" style="width:100%;height:500px;visibility:hidden;">{$firm['detail']}</textarea>
+							<br/>
+
+                            <div class="input-group">
+                            	<span class="input-group-addon">状态</span>
+                                <span class="input-group-addon">
+                                    <input name="hide" id="nohide" type="radio" value="0" <?php if($firm['hide']==0)echo "checked";?> >
+                                </span>
+                                <p class="form-control" id="delhide">显示</p>
+                                <span class="input-group-addon">
+                                    <input name="hide" id="hide" type="radio" value="1" <?php if($firm['hide']==1)echo "checked";?>>
+                                </span>
+                                <p class="form-control" id="gohide">隐藏</p>
+                            </div>
+							<p></p>
+
+							<input class="form-control" name="viewnum" id="viewnum" placeholder="浏览量" type="number" value="{$firm['viewnum']}">
+                            <p></p>
+
+                             <input class="form-control" name="tag" id="tag" placeholder="标签" type="text" value="{$firm['tag']}">
+                            <p></p>
+						
+							<div style="text-align:center;">
+							<button type="button" id="subm" class="btn btn-sm btn-success" style="height: 100px;width: 100%;font-size: 20px;">提交</button>
+							</div>
+
+                        </div>
+                    	</form>
+                    </div>
+                    <!-- end panel -->
+                </div>
+            </div>
+            <!-- end row -->
+		</div>
+		<!-- end #content -->
+		
+		<!-- begin scroll to top btn -->
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+		<!-- end scroll to top btn -->
+	</div>
+	<!-- end page container -->
+	
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src="__STATIC__/adminassets/plugins/jquery-1.7.2/jquery-1.7.2.js"></script>
+	<script src="__STATIC__/adminassets/plugins/jquery-ui-1.10.4/ui/minified/jquery-ui.min.js"></script>
+	<script src="__STATIC__/adminassets/plugins/bootstrap-3.1.1/js/bootstrap.min.js"></script>
+	<script src="__STATIC__/adminassets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<!--[if lt IE 9]>
+		<script src="__STATIC__/adminassets/crossbrowserjs/html5shiv.js"></script>
+		<script src="__STATIC__/adminassets/crossbrowserjs/respond.min.js"></script>
+		<script src="__STATIC__/adminassets/crossbrowserjs/excanvas.min.js"></script>
+	<![endif]-->
+
+	<!-- ================== END BASE JS ================== -->
+	
+	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+	<script src="__STATIC__/adminassets/plugins/DataTables-1.9.4/js/jquery.dataTables.js"></script>
+	<script src="__STATIC__/adminassets/plugins/DataTables-1.9.4/js/data-table.js"></script>
+	<script src="__STATIC__/adminassets/js/apps.js"></script>
+	<!-- ================== END PAGE LEVEL JS ================== -->
+	<script>
+		$(document).ready(function() {
+			App.init();
+		});
+	</script>
+	<!-- 上传图片 -->
+	<script src="__STATIC__/js/jquery.form.js"></script> 
+	<script>
+		$("#up_headpic").click(function(){
+			$("#up_headpic_input").click();
+			
+		});
+		$("#up_headpic_input").change(function(){
+			$("#form2").ajaxSubmit({
+				dataType:  'json',
+			    beforeSubmit:function(){},
+				beforeSend: function() {},
+				uploadProgress: function(event, position, total, percentComplete) {
+	                var percentVal = percentComplete;
+				},	
+				success: function(data) {
+					if(data == "图片上传失败:02"){
+						alert(data);
+					}else{
+						$("#up_headpic").attr("src",data);
+						$("#pic").val(data);
+					}
+				},
+				error:function(xhr){
+					alert("图片传输失败:01");
+				}
+			}); 
+		});
+	</script>
+	<!-- 上传图片end -->
+	<!-- 富文本 -->
+	<script charset="utf-8" src="/kindeditor/kindeditor-all.js"></script>
+	<script charset="utf-8" src="/kindeditor/lang/zh-CN.js"></script>
+	<script charset="utf-8" src="/kindeditor/plugins/code/prettify.js"></script>
+	<script>
+		KindEditor.ready(function(K) {
+			var editor1 = K.create('textarea[name="detail"]', {
+				cssPath : '/kindeditor/plugins/code/prettify.css',
+				uploadJson : '/kindeditor/php/upload_json.php',
+				fileManagerJson : '/kindeditor/php/file_manager_json.php',
+				allowFileManager : true,
+				afterCreate : function() {
+					var self = this;
+					K.ctrl(document, 13, function() {
+						self.sync();
+						K('form[name="form1"]')[0].submit();
+					});
+					K.ctrl(self.edit.doc, 13, function() {
+						self.sync();
+						K('form[name="form1"]')[0].submit();
+					});
+				}
+			});
+			prettyPrint();
+			$("#subm").click(function(){	//表单验证
+				$("#detail").val(editor1.html());
+				$("#form1").submit();
+			});
+		});
+	</script>
+	<!-- 富文本end -->
+	<script>
+		$("#gohide").click(function(){
+			$("#hide").attr("checked","checked");
+		});
+		$("#delhide").click(function(){
+			$("#nohide").attr("checked","checked");
+		});
+	</script>
+</body>
+</html>

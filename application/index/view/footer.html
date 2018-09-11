@@ -1,0 +1,138 @@
+
+
+<footer>
+  <p> www.hjphp.com | All Rights Reserved </p>
+</footer>
+
+<script src="__STATIC__/js/nav.js"></script>
+<script src="__STATIC__/js/jquery-2.1.1.min.js"></script>
+<script src="__STATIC__/js/jquery.md5.js"></script>
+
+<!-- 登录框start -->
+<script>
+$(function(){
+
+	//登录表单 点击按钮弹出遮罩
+	$("[name='top_login']").click(function(){
+		showOverlay();
+		$('html , body').animate({scrollTop: 0},'slow');
+	});
+	$("#overlay").click(function(){
+		hideOverlay()
+	});
+	
+	 /* 显示遮罩层 */
+	function showOverlay() {
+		//手机端影藏头部
+		$("#mnav ul").css('display','none');
+		$("#mnav h2").attr("class","");
+		
+		$("#overlay").height(bodyHeight());
+		$("#overlay").width(bodyWidth());
+		// fadeTo第一个参数为速度，第二个为透明度
+		$("#overlay").fadeTo(200, 0.5);
+		$("#login_div").fadeTo(200, 1.0);
+	}
+ 
+	/* 隐藏覆盖层 */
+	function hideOverlay() {
+		$("#overlay").fadeOut(200);
+		$("#login_div").fadeOut(200);
+	}
+	/* 当前页面高度 */
+	function bodyHeight() {
+		return document.body.scrollHeight;
+	}
+	/* 当前页面宽度 */
+	function bodyWidth() {
+		return document.body.scrollWidth;
+	}
+	/* 当前浏览器的宽度*/
+	function pageHeight() {
+		return window.screen.availHeight;
+	}
+	/* 当前浏览器的宽度*/
+	function pageWidth() {
+		return window.screen.availWidth;
+	}
+	
+	//登录表单 验证
+	$("#login").click(function(){
+		if($.trim($("#username").val())==""){
+			alert("请输入用户名");return;
+		}
+		if($("#password").val()==""){
+			alert("请输入密码");return;
+		}
+		if($.trim($("#checkcode").val())==""){
+			alert("请输入验证码");return;
+		}
+		
+		var logindata= {
+			"username":$.trim($("#username").val()),
+			"password":$.md5($("#password").val()),
+			"checkcode":$.trim($("#checkcode").val())
+		};
+		var logindata = JSON.stringify(logindata);	
+		
+		$.post("{:url('index/login')}",{logindata:logindata},function(res){
+			$("#checkcodeimg").attr("src","{:captcha_src()}");
+			switch(res){
+				case "1":
+					alert("登录成功");
+					location.reload();
+					break;
+				case "01":
+					alert("验证码有误，请重新输入");
+					break;
+				case "02":
+					alert("账号有误，请重新输入");
+					break;
+				case "03":
+					alert("密码有误，请重新输入");
+					break;
+				default:
+					break;
+			}
+		});
+		
+	});
+	
+	
+	
+});
+
+</script>
+
+<div id="overlay"></div>
+<div id="login_div">
+	<form action="" class="basic-grey">
+		<h1>用户登录</h1>
+		<label>
+			<span>用户名：</span>
+			<input type="text" name="username" id="username" placeholder="请输入用户名" />
+		</label>
+		<label>
+			<span>密码:</span>
+			<input type="password" name="password" id="password" placeholder="请输入密码" />
+		</label>
+		<label>
+			<span>验证码:</span>
+			<input type="text" name="checkcode" id="checkcode" placeholder="请输入验证码" />
+		</label>
+		<label>
+			<span>&nbsp;</span>
+			<img src="{:captcha_src()}" alt="" id="checkcodeimg" onclick="this.src='/captcha'" style="margin-bottom: 20px;">
+		</label>
+		<label>
+			<span>&nbsp;</span>
+			<input type="button" class="button" id="login" value="登录" />
+		</label>
+		<br/>
+		<label>
+			<span>&nbsp;</span>
+			<a href="{:url('index/register')}" style="float:right;margin-right:40px;">没有账号？立即注册</a>
+		</label>
+	</form>
+</div>
+<!-- 登录框end -->

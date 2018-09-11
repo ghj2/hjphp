@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>留言_郭豪杰个人博客-HJPHP</title>
+<meta name="keywords" content="留言板,郭豪杰,hjphp,个人博客留言板,技术博客,php博客" />
+<meta name="description" content="郭豪杰个人博客的留言板,来说点骚话吧小伙子." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+<!-- 基本样式 -->
+<link href="__STATIC__/css/base.css" rel="stylesheet">
+<link href="__STATIC__/css/index.css" rel="stylesheet">
+<link href="__STATIC__/css/m.css" rel="stylesheet">
+<!-- 页面样式 -->
+<link href="__STATIC__/css/custom-styles.css" rel="stylesheet">
+<link href="__STATIC__/css/component2.css" rel="stylesheet">
+<link href="__STATIC__/css/font-awesome.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="__STATIC__/js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+</head>
+<body>
+{include file="header"}
+
+<article>
+  <h1 class="t_nav"><span>{:config('head_sentence')}</span><a href="/" class="n1">网站首页</a><a class="n2">留言</a></h1>
+  <div class="ab_box">
+  	 <!-- /container -->
+	<div class="container page-styling">
+	{if condition="$list->isEmpty() eq 1"}
+	<div class="content-wrap centering">
+        <div class="main-title">
+          <ul class="grid effect-8" id="grid">
+	        <li> 
+	          <h4>	
+				暂无留言...
+			  </h4>
+			</li>
+          </ul>
+        </div>
+    </div>
+	<div class="ruler"></div>
+	{/if}
+	{foreach name="list" item="item"}
+	<div class="content-wrap centering">
+        <div class="main-title">
+          <ul class="grid effect-8" id="grid">
+	        <li> 
+	          <h1>{$item['uid']}</h1>
+	          <h4 class="mes_content" id="mes_content{$item['id']}">	
+				{$item['content']}
+			  </h4>
+			  <div class="more_content">
+			 查看全部...
+			  </div>
+			</li>
+
+          </ul>
+        </div>
+		<div class="tags">
+
+		<ul class="grid effect-7" id="grid" >
+			 <li>
+				{:date("Y-m-d H:i:s",$item['addtime'])}
+			  </li>
+          <!-- <li><a href="#" class="btn">评论</a></li>
+          <li><a href="#" class="btn">点赞</a></li> -->
+        </ul>
+		</div>
+    </div>
+	<div class="ruler"></div>
+	{/foreach}
+	 <style>
+    /* 分页-tp5自带标签 */
+    .pagination { text-align: center; color: #666; width: 100%; clear: both; margin: 20px 0; padding-top: 20px;}
+    .pagination li { color: #666; margin: 0 2px; border: 1px solid #000; padding: 5px 10px;display:inline;}
+    .pagination li:hover { color: #f00; text-decoration: underline }
+    </style>
+    {$list->render()}
+	<div class="header-wrapper">
+	  <form action="" method="post" onsubmit="if($('#content').val().length>500){alert('字数不得多于500字，当前：'+$('#content').val().length+'字');return false;}if($('#content').val()==''){alert('请输入内容');return false;}">
+	  <div class="site-name">
+        <h1 id="show_editor"><img src="__STATIC__/images/bianji.png" style="height:80px;width:80px;"/></h1>
+      </div>
+      <div id="editor_div" class="site-name allwidth" style="display:none;">
+        <h1>
+        	<textarea class="mes_editor" name="content" id="content" placeholder="说点想说的话..."></textarea>		
+	        <button class="mes_button" type="submit">提交</button>
+        </h1>
+      </div>
+  	  </form>
+	</div>
+
+
+
+    </div>
+    <!-- /container -->
+  
+  </div>
+  
+</article>
+
+
+
+
+{include file="footer"}
+
+<!-- 页面JS -->
+<script src="__STATIC__/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="__STATIC__/js/masonry.pkgd.min.js"></script>
+<script src="__STATIC__/js/imagesloaded.js"></script>
+<script src="__STATIC__/js/classie.js"></script>
+<script src="__STATIC__/js/AnimOnScroll.js"></script>
+
+<script>
+  new AnimOnScroll( document.getElementById( 'grid' ), {
+    minDuration : 0.4,
+    maxDuration : 0.7,
+    viewportFactor : 0.2
+  } );
+</script>
+<!-- /页面JS -->
+<!-- editor -->
+<script>
+	//唤醒输入框
+	$("#show_editor").click(function(){
+		if("{:session('userinfo')['id']}"==''){
+			alert('请先登录');
+			$("[name='top_login']").click();
+			return false;
+		}
+		$("#show_editor").hide();
+		$("#editor_div").fadeIn(1000);
+	});
+	//查看全文
+	$(".mes_content").each(function(){
+		if($(this)[0].scrollHeight>70){
+			$(this).next().css("display","block");
+		}
+	});
+	$(".more_content").click(function(){
+		alert($(this).prev().html());
+	});
+</script>
+
+<!-- /editor -->
+</body>
+</html>

@@ -1,0 +1,38 @@
+
+<header>
+  <div class="tophead">
+    <div class="logo"><a href="/">Reason 个人博客</a></div>
+    <div id="mnav">
+      <h2><span class="navicon"></span></h2>
+      <ul>
+        <li><a href="/">网站首页</a></li>
+        <li><a href="{:url('article/index')}">文章</a></li>
+        <li><a href="{:url('news/index')}">新闻</a></li>
+        <li><a href="{:url('message/index')}">留言</a></li>
+		{if condition="session('userinfo') == NULL"} 
+		<li><a href="javascript:void(0);" name="top_login">登录</a></li>
+		{else /}
+		<li><a href="{:url('user/center')}">{:session('userinfo')['username']}的个人中心</a></li>
+		<li><a href="{:url('index/logout')}">注销</a></li>
+		{/if}
+		
+      </ul>
+    </div>
+    <nav class="topnav" id="topnav">
+      <ul>
+        <li><a class="topnav<?php if(request()->controller()=='Index')echo '_current';?>" href="/">网站首页</a></li>
+        <li><a class="topnav<?php if(request()->controller()=='Article')echo '_current';?>" href="{:url('article/index')}">文章</a></li>
+        <li><a class="topnav<?php if(request()->controller()=='News')echo '_current';?>" href="{:url('news/index')}">新闻</a></li>
+        <li><a class="topnav<?php if(request()->controller()=='Message')echo '_current';?>" href="{:url('message/index')}">留言</a></li>
+		{if condition="session('userinfo') == NULL"} 
+		<li><a href="javascript:void(0);" name="top_login">登录</a></li>
+		{else /}
+		<li><a class="topnav<?php if(request()->controller()=='User')echo '_current';?>" href="{:url('user/center')}">{:session('userinfo')['username']}的个人中心</a></li>
+		<li><a href="{:url('index/logout')}">注销</a></li>
+		{/if}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+

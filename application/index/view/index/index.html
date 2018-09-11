@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>郭豪杰个人博客_技术博客_个人网站建设_PHP-HJPHP</title>
+<meta name="keywords" content="郭豪杰,hjphp,ghj,个人博客,技术博客,php博客,thinkphp博客模板" />
+<meta name="description" content="郭豪杰的个人博客,分享生活,记录编程点滴,开源项目以及一些自编的免费API." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="__STATIC__/css/base.css" rel="stylesheet">
+<link href="__STATIC__/css/index.css" rel="stylesheet">
+<link href="__STATIC__/css/m.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="__STATIC__/js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+</head>
+<body>
+{include file="header"}
+
+<div class="picshow">
+  <ul>
+    <li><a href="/"><i><img src="{$options['homepage_pic']}" style="height:100%;"></i>
+      <div class="font">
+        <h3>{$options['homepage_title']}</h3>
+      </div>
+      </a></li>
+    
+  </ul>
+</div>
+{if condition="$list eq NULL"}
+<article>
+  <div class="blogs">
+    <li> 
+      <h3 class="blogtitle" style="text-align:center;">暂无内容...</h3>
+    </li>
+  </div>
+  <div class="sidebar">
+    <div class="about">
+      <div class="avatar"> <img src="{$options['grjs_pic']}" alt=""> </div>
+      <p class="abname">{$options['grjs_row1']}</p>
+      <p class="abposition">{$options['grjs_row2']}</p>
+      <div class="abtext"> {$options['grjs_intro']} </div>
+    </div>
+    <div class="search">
+     <!--  <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form> -->
+    </div>
+
+    <div class="paihang">
+      <h2 class="hometitle">点击排行</h2>
+      <ul>
+        <li><b style="text-align:center;">暂无内容...</b>
+        </li>
+      </ul>
+    </div>
+    <div class="paihang">
+      <h2 class="hometitle">站长推荐</h2>
+       <ul>
+        <li><b style="text-align:center;">暂无内容...</b>
+        </li>
+      </ul>
+    </div>
+    <div class="links">
+      <h2 class="hometitle">友情链接</h2>
+      <ul>
+        {if condition="$options['friend_link'] eq NULL"}
+        <li style="text-align:center;"><b>暂无内容...</b></li>
+        {else/}
+        {foreach name="options['friend_link']" item="item"}
+        <li><a href="{$item['url']}" title="{$item['title']}">{$item['title']}</a></li>
+        {/foreach}
+        {/if}
+      </ul>
+    </div>
+    <div class="weixin">
+      <h2 class="hometitle">官方微信</h2>
+      <ul>
+        <img src="{$options['wechat_pic']}">
+      </ul>
+    </div>
+  </div>
+</article>
+
+{else/}
+<article>
+  <div class="blogs">
+	
+    {foreach name="list['time']" item="item"}
+    <li> <span class="blogpic"><a href="{:url('article/detail',['id'=>$item['id']])}"><img src="{$item['pic']}"></a></span>
+      <h3 class="blogtitle"><a href="{:url('article/detail',['id'=>$item['id']])}">{$item['title']}</a></h3>
+      <div class="bloginfo">
+        <p>{$item['intro']}</p>
+      </div>
+      <div class="autor">
+        <span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">{$item['tag']}</a></span>
+        <span class="dtime">{:date("Y-m-d H:i:s",$item['addtime'])}</span>
+        <span class="viewnum">浏览（<a href="#">{$item['viewnum']}</a>）</span>
+        <span class="readmore"><a href="{:url('article/detail',['id'=>$item['id']])}">阅读原文</a></span></div>
+    </li>
+    {/foreach}
+  </div>
+  <div class="sidebar">
+    <div class="about">
+      <div class="avatar"> <img src="{$options['grjs_pic']}" alt=""> </div>
+      <p class="abname">{$options['grjs_row1']}</p>
+      <p class="abposition">{$options['grjs_row2']}</p>
+      <div class="abtext"> {$options['grjs_intro']} </div>
+    </div>
+    <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+
+    <div class="paihang">
+      <h2 class="hometitle">点击排行</h2>
+      <ul>
+        {foreach name="list['hot']" item="item"}
+        <li><b><a href="{:url('article/detail',['id'=>$item['id']])}" target="_blank">{$item['title']}</a></b>
+          <p><i><a href="{:url('article/detail',['id'=>$item['id']])}" target="_blank"><img src="{$item['pic']}"></a></i>{$item['intro']}</p>
+        </li>
+        {/foreach}
+      </ul>
+    </div>
+    <div class="paihang">
+      <h2 class="hometitle">站长推荐</h2>
+      <ul>
+        {foreach name="list['recommend']" item="item"}
+        <li><b><a href="{:url('article/detail',['id'=>$item['id']])}" target="_blank">{$item['title']}</a></b>
+          <p><i><a href="{:url('article/detail',['id'=>$item['id']])}" target="_blank"><img src="{$item['pic']}"></a></i>{$item['intro']}</p>
+        </li>
+        {/foreach}
+		
+      </ul>
+    </div>
+    <div class="links">
+      <h2 class="hometitle">友情链接</h2>
+      <ul>
+        {if condition="$options['friend_link'] eq NULL"}
+        <li style="text-align:center;"><b>暂无内容...</b></li>
+        {else/}
+        {foreach name="options['friend_link']" item="item"}
+        <li><a href="{$item['url']}" title="{$item['title']}">{$item['title']}</a></li>
+        {/foreach}
+        {/if}
+      </ul>
+    </div>
+    <div class="weixin">
+      <h2 class="hometitle">官方微信</h2>
+      <ul>
+        <img src="{$options['wechat_pic']}">
+      </ul>
+    </div>
+  </div>
+</article>
+
+{/if}
+
+
+<div class="blank"></div>
+{include file="footer"}
+</body>
+</html>

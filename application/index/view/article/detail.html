@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{$content['title']}</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+<!-- 基本样式 -->
+<link href="__STATIC__/css/base.css" rel="stylesheet">
+<link href="__STATIC__/css/index.css" rel="stylesheet">
+<link href="__STATIC__/css/m.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="__STATIC__/js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+
+
+</head>
+<body>
+{include file="header"}
+
+<input type="hidden" id="pageval" value="{:input('param.page');}"/>
+
+<article>
+  <h1 class="t_nav">
+  	<span>{:config("head_sentence");}</span>
+  	<a href="/" class="n1">网站首页</a><a href="#" class="n2">文章</a>
+  </h1>
+  
+  <div class="infos">
+    <div class="newsview">
+      <h3 class="news_title">{$content['title']}</h3>
+      <div class="news_author"><span class="au01"><a href="mailto:dancesmiling@qq.com">郭理智</a></span><span class="au02">{:date("Y-m-d H:i:s",$content['addtime'])}</span><span class="au03">共<b>{$content['viewnum']}</b>人围观</span></div>
+      <div class="tags"><a href="#">{$content['tag']}</a></div>
+      <div class="news_about"><strong>简介</strong>{$content['intro']}</div>
+      <div class="news_infos"> 
+          {$content['detail']}
+      </div>
+    </div>
+    <div class="share"> </div>
+    <div class="nextinfo">
+     
+      <p>上一篇： 
+        {if condition="$content['pre'] neq null"}
+        <a href="{:url('detail',['id'=>$content['pre']['id']])}" target="_blank">{$content['pre']['title']}</a></p>
+        {else/}
+        <a href="#">没有了...</a>
+        {/if}
+      <p>下一篇：
+        {if condition="$content['next'] neq null"}
+        <a href="{:url('detail',['id'=>$content['next']['id']])}" target="_blank">{$content['next']['title']}</a></p>
+         {else/}
+        <a href="#">没有了...</a>
+        {/if}
+    </div>
+
+    <div class="news_pl">
+      <h2>文章评论</h2>
+      <ul id="comment_content">
+        {foreach name="comment" item="item"}
+        <li>
+        <img id="comment_img{$item['id']}_hide" src="__STATIC__/images/zan.gif" style="position: absolute;display: none;width:80px;height:80px;"/>
+        <div class="gbko">{$item['content']}</div> 
+        <div class="comment_info">
+          <span class="comment_time">{$item['uid']}  {:date("Y-m-d H:i:s",$item['addtime'])}</span>
+          <span class="comment_img" id="comment_img{$item['id']}"><img src="__STATIC__/images/zan.png"/>(<span id="comment_zan_num{$item['id']}">{$item['dianzan']}</span>)</span>
+        </div>
+        <center><hr width='95%'></center>
+        </li>
+        {/foreach}
+        <style>
+        /* 分页-tp5自带标签 */
+        .pagination { text-align: center; color: #666; width: 100%; clear: both; margin: 20px 0; padding-top: 20px;}
+        .pagination li { color: #666; margin: 0 2px; border: 1px solid #000; padding: 5px 10px;display:inline;}
+        .pagination li:hover { color: #f00; text-decoration: underline }
+        </style>
+        {$comment->render()}
+      </ul>
+      <div class="comment_editor">
+        <textarea id="comment_textarea"></textarea>
+        <button style="display:none;">发布评论</button>
+      </div>
+
+    </div>
+    
+
+
+  </div>
+  
+
+  <div class="sidebar">
+   
+    <div class="paihang" style="margin-top: 20px;">
+      <h2 class="hometitle">点击排行</h2>
+      <ul>
+        {foreach name="hot_list" item="item"}
+        <li><b><a href="{:url('detail',['id'=>$item['id']])}" target="_blank">{$item['title']}</a></b>
+          <p><i><img src="{$item['pic']}"></i>{$item['intro']}</p>
+        </li>
+        {/foreach}
+      </ul>
+    </div>
+    
+    <div class="weixin">
+      <h2 class="hometitle">官方微信</h2>
+      <ul>
+        <img src="{$options['wechat_pic']}">
+      </ul>
+    </div>
+  </div>
+</article>
+
+
+
+{include file="footer"}
+<script>
+/*评论按钮*/
+//按钮
+$(".comment_editor textarea").focus(function(){
+    $(".comment_editor button").fadeIn("1000");
+});
+$(".comment_editor textarea").blur(function(){
+    $(".comment_editor button").fadeOut("1000");
+});
+//提交
+$(".comment_editor button").click(function(){
+    var comment_data= {
+      "aid":{$content['id']},
+      "content":$("#comment_textarea").val(),
+    };
+    var comment_data = JSON.stringify(comment_data);  
+    $.post("{:url('comment_add')}",{data:comment_data},function(res){
+      if(res=='1'){
+        $("#comment_content").prepend("<li>"+
+            "<div class='gbko'>"+$("#comment_textarea").val()+"</div>"+
+            "<div class='comment_info'>"+
+              "<span class='comment_time'>{:session('userinfo')['username']}  {:date('Y-m-d H:i:s',time())}</span>"+
+              "<span class='comment_img'><img src='__STATIC__/images/zan.png'/>0</span>"+
+            "</div>"+
+            "<center><hr width='95%'></center></li>"
+        );
+      }else{
+        alert("评论文章请先登录");
+        $("[name='top_login']").click();
+        $('html , body').animate({scrollTop: 0},'slow');
+      };
+    });
+});
+//分页
+if($("#pageval").val()!=""){
+   $('html,body').animate({scrollTop:$('.news_pl').offset().top}, 800);
+}
+//点赞
+$(".comment_img").click(function(){
+  var id = $(this).attr("id");
+  //动画效果
+  var left = $("#"+id).position().left;
+  $("#"+id+"_hide").css("left",left-80);
+  $("#"+id+"_hide").fadeIn(100);
+  $("#"+id+"_hide").fadeOut(500);
+  //ajax
+  $.post("{:url('comment_zan')}",{cid:id},function(res){
+    if(res=="1"){
+      var zan_id = "comment_zan_num"+id.replace(/[^0-9]/ig,"");
+      $("#"+zan_id).text(parseInt($("#"+zan_id).text())+1);
+    }else{
+      alert("error:"+res);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
