@@ -20,7 +20,7 @@ class Article extends Controller {
 	public function article_add(){
 		if(request()->isPost()){
 			$request = request();
-			$data = $request->only(['title','title2','pic','intro','detail','hide','index','tag','viewnum'],"post");
+			$data = $request->only(['title','title2','pic','intro','detail','hide','index','tag','viewnum','keywords','description'],"post");
 			$data['addtime'] = time();
 			$res = Db::name("article")->insert($data);
 			if($res){
@@ -38,7 +38,7 @@ class Article extends Controller {
 	public function article_edit(){
 		if(request()->isPost()){
 			$request = request();
-			$data = $request->only(['title','title2','pic','intro','detail','hide','index','tag','viewnum'],"post");
+			$data = $request->only(['title','title2','pic','intro','detail','hide','index','tag','viewnum','keywords','description'],"post");
 			$data['updatetime'] = time();
 			$res = Db::name("article")->where('id='.session("admin_edit_article_id"))->update($data);
 			session("admin_edit_article_id",NULL);
